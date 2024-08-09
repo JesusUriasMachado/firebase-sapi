@@ -1,0 +1,73 @@
+#%RAML 1.0
+title: firebase-sapi
+description: Salesforce's system api
+baseUri: http://{host}:{port}/v1/api/
+protocols: [http]
+
+traits:
+  hasHeaders: !include resources/traits/hasHeaders.raml
+  responses: !include resources/traits/responses.raml
+
+#Users
+/users:
+  description: Panel for users administration
+  displayName: Users
+  is:
+    - hasHeaders
+    - responses
+  get:
+    description: Get all users
+    displayName: Get Users
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include resources/examples/users/GetUsersResponse.json
+  post:
+    description: Post users
+    displayName: Post Users
+    is:
+      - hasHeaders
+      - responses
+    body:
+      application/json:
+        type: !include resources/examples/users/Users.raml
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include resources/examples/users/PostResponse.json
+  /{id}:
+    get:
+      is:
+        - hasHeaders
+        - responses
+      displayName: Get User
+      description: Get user by id
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include resources/examples/users/GetUserResponse.json
+    patch:
+      is:
+        - hasHeaders
+        - responses
+      displayName: Update User
+      description: Update Users by id
+      responses:
+        201:
+          body:
+            application/json:
+              example: !include resources/examples/users/PatchResponse.json
+    delete:
+      is:
+        - hasHeaders
+        - responses
+      displayName: Delete User
+      description: Delete user by id
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include resources/examples/users/DeleteResponse.json
